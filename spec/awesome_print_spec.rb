@@ -392,6 +392,49 @@ EOS
   end
 
   #------------------------------------------------------------------------------
+  describe "Hash with nested arrays and variety of key lengths" do
+    before do
+      @hash = { :longer_key_with_array => [0, 1, 2], :s_key => [0, 1, 2] }
+    end
+
+    it "should format properly without left_keys" do
+      result = @hash.ai(:plain => true)
+      result.should == <<-EOS.strip
+{
+    :longer_key_with_array => [
+        [0] 0,
+        [1] 1,
+        [2] 2
+    ],
+                    :s_key => [
+        [0] 0,
+        [1] 1,
+        [2] 2
+    ]
+}
+EOS
+    end
+
+    it "should format without any right justification with left_keys" do
+      result = @hash.ai(:plain => true, :left_keys => true)
+      result.should == <<-EOS.strip
+{
+    :longer_key_with_array => [
+        [0] 0,
+        [1] 1,
+        [2] 2
+    ],
+    :s_key => [
+        [0] 0,
+        [1] 1,
+        [2] 2
+    ]
+}
+EOS
+    end
+  end
+
+  #------------------------------------------------------------------------------
   describe "Negative options[:indent]" do
     before do
       @hash = { [0, 0, 255] => :yellow, :red => "rgb(255, 0, 0)", "magenta" => "rgb(255, 0, 255)" }

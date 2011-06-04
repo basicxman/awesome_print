@@ -27,6 +27,7 @@ Default options:
     :plain      => false,  # Use colors.
     :sort_keys  => false,  # Do not sort hash keys.
     :limit      => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
+    :left_keys  => false,  # Set to true to force left justification of keys.
     :color => {
       :array      => :white,
       :bignum     => :blue,
@@ -182,6 +183,42 @@ If the HTML option is given extended color values will be converted and used in 
         [998] 999,
         [999] 1000
     ]
+
+    $ cat 9.rb
+    require "awesome_print"
+    test = { :longer_key => nil, :s_key => nil }
+    puts "Without left_keys"
+    ap test
+    puts "With left_keys"
+    ap test, :left_keys => true
+    ^D
+    $ ruby 9.rb
+    Without left_keys
+    {
+        :longer_key_with_array => [
+            [0] 0,
+            [1] 1,
+            [2] 2
+        ],
+                        :s_key => [
+            [0] 0,
+            [1] 1,
+            [2] 2
+        ]
+    }
+    With left_keys
+    {
+        :longer_key_with_array => [
+            [0] 0,
+            [1] 1,
+            [2] 2
+        ],
+        :s_key => [
+            [0] 0,
+            [1] 1,
+            [2] 2
+        ]
+    }
 
 ### Example (Rails console) ###
     $ rails console

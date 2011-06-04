@@ -284,7 +284,9 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def align(value, width)
       if @options[:multiline]
-        if @options[:indent] >= 0
+        if @options[:left_keys]
+          outdent + value
+        elsif @options[:indent] >= 0
           value.rjust(width)
         else
           indent + value.ljust(width)

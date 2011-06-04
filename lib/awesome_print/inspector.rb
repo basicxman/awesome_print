@@ -23,6 +23,7 @@ module AwesomePrint
         :plain      => false,  # Use colors.
         :sort_keys  => false,  # Do not sort hash keys.
         :limit      => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
+        :left_keys  => false,  # Set to true to force left justification of keys.
         :color => { 
           :array      => :white,
           :bigdecimal => :blue,
