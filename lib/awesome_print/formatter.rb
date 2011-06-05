@@ -70,11 +70,8 @@ module AwesomePrint
       orig, type = yield 
       s = orig.send(color_func(:fg, type), @options[:html])
       if @options[:bgcolor].include? type
-        puts "Testing #{type} '#{s.inspect}'"
         s = s.send(color_func(:bg, type), @options[:html])
-        puts "Then '#{s.inspect}'"
       end
-      s
     end
 
     # Catch all method to format an arbitrary object.
