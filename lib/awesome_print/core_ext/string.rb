@@ -40,7 +40,7 @@ class String
         hex = AwesomePrint::Colors.lookup_by_num(c)
         %Q|<pre style="background-color:#{hex}">#{self}</pre>|
       else
-        "\033[48;5;#{c}m#{self}\033[0m"
+        "\033[48;5;#{c}m#{self}"
       end
     end
   end

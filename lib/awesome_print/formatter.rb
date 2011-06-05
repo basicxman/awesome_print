@@ -39,7 +39,9 @@ module AwesomePrint
       if @options[:plain] || !@options[:color][type] || !@inspector.colorize?
         @options[:html] ? "<pre>#{s}</pre>" : s
       else
-        s.send(color_func(@options[:color][type]), @options[:html])
+        color_format do
+          [s, type]
+        end
       end
     end
 
@@ -48,15 +50,31 @@ module AwesomePrint
 
     # Process a color type, returns a function symbol.
     #------------------------------------------------------------------------------
-    def color_func(c)
+    def color_func(ground, type)
+      opt_key = ground == :fg ? :color : :bgcolor
+      c = @options[opt_key][type]
+      p = ground.to_s
       temp = case c
-        when Array  then "fg" + AwesomePrint::Colors::rgb(*c)
-        when Fixnum then "fg" + ((c >= 16 and c <= 255) ? c.to_s : "255")
-        when String then AwesomePrint::Colors::hex(c)
+        when Array  then p + AwesomePrint::Colors::rgb(*c)
+        when Fixnum then p + ((c >= 16 and c <= 255) ? c.to_s : "255")
+        when String then AwesomePrint::Colors::hex(c, p)
         when Symbol then c
-        else "fg255"
+        else "#{p}255"
       end
       temp.to_sym
+    end
+
+    # Process coloring.
+    #------------------------------------------------------------------------------
+    def color_format
+      orig, type = yield 
+      s = orig.send(color_func(:fg, type), @options[:html])
+      if @options[:bgcolor].include? type
+        puts "Testing #{type} '#{s.inspect}'"
+        s = s.send(color_func(:bg, type), @options[:html])
+        puts "Then '#{s.inspect}'"
+      end
+      s
     end
 
     # Catch all method to format an arbitrary object.

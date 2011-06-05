@@ -43,7 +43,8 @@ module AwesomePrint
           :args       => :pale,
           :keyword    => :cyan,
           :variable   => :cyanish
-        }
+        },
+        :bgcolor => {}
       }
 
       # Merge custom defaults and let explicit options parameter override them.

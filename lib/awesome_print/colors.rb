@@ -10,12 +10,12 @@ module AwesomePrint
       lookup_by_rgb(args).to_s
     end
 
-    def self.hex(c)
+    def self.hex(c, p = "fg")
       if (c =~ /^#?[0-9A-Fa-f]{6}$/).nil?
         c
       else
         c = "#" + c if c.length == 6
-        "fg" + lookup_by_hex(c.upcase).to_s
+        p + lookup_by_hex(c.upcase).to_s
       end
     end
 
